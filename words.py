@@ -1,1 +1,1 @@
-word_list = ["Wagyu", "Steak","Book","Posion", "Cookie","Bagel", "Toast","Burrito", "Cheesecake","Mozzarella", "Cereal","Hamburger", "Hot Dogs","Soup", "Salad","Kebabs", "Rice","Curry", ]
+word_list = ["Wagyu", "Steak","Posion", "Cookie","Bagel", "Toast","Burrito", "Cheesecake","Mozzarella", "Cereal","Hamburger", "HotDogs","Soup", "Salad","Kebabs", "Rice","Curry"]

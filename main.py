@@ -85,6 +85,28 @@ losing_animation_frames = [scale_animation_frame(frame) for frame in losing_anim
 def get_word():
     return random.choice(word_list).upper()
 
+# Create a dictionary of words and their clues
+# Example clues for each word. Modify or expand this based on your word list.
+word_clues = {
+    'Wagyu': 'Made of japanese cattle',
+    'Steak': 'Type of fancy meat',
+    'Chip': 'Comes in a bag',
+    'Posion': 'Not edible but assassins like it',
+    'Cookie': 'Dessert',
+    'Bagel': 'Has a hole in the middle',
+    'Toast': 'A toaster is ofter used to make this',
+    'Burrito': 'Han have anything but its usually beans and cheese',
+    'Cheesecake': 'Sounds like a bitter dessert',
+    'Mozzarella': 'Type of cheese',
+    'Cereal': 'Eaten for breakfast',
+    'Hamburger': 'Popular amarican food',
+    'HotDog': 'Popular american food goes with hamburgers',
+    'Soup': 'For the sick',
+    'Salad': 'Made with vegtables',
+    'Kebabs': 'Grilled on a stick',
+    'Rice': 'Asian Staple',
+    'Curry': 'Indian food that is made of meat or vegtables (or both)'
+}
 # Draw text on the screen
 def draw_text(text, font, color, y_position, x_position=20):
     text_surface = font.render(text, True, color)
@@ -179,6 +201,8 @@ def play(word):
     frame_delay = 130
     last_frame_time = pygame.time.get_ticks()
 
+    clue = word_clues.get(word, "No clue available.")  # Get the clue for the word
+
     while not guessed and tries > 0:
         screen.fill(WHITE)
 
@@ -194,6 +218,7 @@ def play(word):
             draw_text("Incorrect guesses: " + ", ".join(guessed_letters), SMALL_FONT, BLACK, 560)
             draw_text(f"Tries left: {tries}", SMALL_FONT, BLACK, 10, x_position=20)
             draw_text(f"Score: {score}", SMALL_FONT, BLACK, 10, x_position=600)  # Display score
+            draw_text(f"Clue: {clue}", SMALL_FONT, BLUE, 450, x_position=20)  # Display clue
 
         pygame.display.update()
 
@@ -236,20 +261,24 @@ def play(word):
 
 # Main function to start the game
 def main():
+    total_score = 0  # Initialize total score
+
     while True:  # Loop for multiple rounds
-        rounds_won = 0
-        total_rounds = 3
+        word = get_word()
+        if play(word):
+            total_score += 100  # Add score for each correct guess
+        else:
+            play_losing_animation(word)  # Play the losing animation if the player fails
 
-        for _ in range(total_rounds):
-            word = get_word()
-            if play(word):
-                rounds_won += 1  # Increment score if the player guessed the word
-            else:
-                break  # Exit the loop if the player chooses not to play again
-
-        # Play winning animation if rounds_won is greater than 0
-        if rounds_won > 0:
-            play_winning_animation(rounds_won, total_rounds)
+        # Display total score after each game
+        print(f"Total score: {total_score}")
+        
+        # Ask the player if they want to continue playing or quit
+        continue_playing = input("Do you want to play again? (Y/N): ").upper()
+        if continue_playing != 'Y':
+            print(f"Final Total Score: {total_score}")
+            pygame.quit()
+            sys.exit()  # Exit the game after showing the total score
 
 if __name__ == "__main__":
     main()
